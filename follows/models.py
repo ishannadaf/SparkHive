@@ -4,12 +4,12 @@ from accounts.models import User
 class Follow(models.Model):
     follower = models.ForeignKey(
         User,
-        related_name='following',
+        related_name='follows_following',
         on_delete=models.CASCADE
     )
     following = models.ForeignKey(
         User,
-        related_name='followers',
+        related_name='follows_followers',
         on_delete=models.CASCADE
     )
     created_at = models.DateTimeField(auto_now_add=True)

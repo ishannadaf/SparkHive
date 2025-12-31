@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Follow
+from notifications.models import Notification
 from accounts.models import User
 
 class FollowToggleAPI(APIView):
@@ -15,8 +16,14 @@ class FollowToggleAPI(APIView):
             following=target
         )
 
-        if not created:
-            follow.delete()
-            return Response({"message": "Unfollowed"})
+        if created:
+            Notification.objects.create(
+                user=target,
+                sender=request.user,
+                notification_type='follow',
+                message=f"{request.user.username} started following you"
+            )
+            return Response({"message": "Followed"})
 
-        return Response({"message": "Followed"})
+        follow.delete()
+        return Response({"message": "Unfollowed"})

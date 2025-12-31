@@ -26,7 +26,12 @@ SECRET_KEY = "django-insecure-dj42#1xpv6hjrk6k#7(66m#9nylmw3zu71g)*bs-95!sk#qz1m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "192.168.1.101",
+    "0.0.0.0",# your laptop IP
+]
 
 
 # Application definition
@@ -87,14 +92,26 @@ WSGI_APPLICATION = "sparkhive_backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sparkhive_db',
+        'USER': 'root',
+        'PASSWORD': 'omicron',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
-
+CORS_ALLOW_ALL_ORIGINS = True
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 

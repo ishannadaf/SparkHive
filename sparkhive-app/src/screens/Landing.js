@@ -1,32 +1,42 @@
-import React, { useContext } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import { ThemeContext } from "../context/ThemeContext";
 
 export default function Landing({ navigation }) {
-  const { theme } = useContext(ThemeContext);
-
   return (
-    <View style={{ flex: 1, backgroundColor: theme.primary, justifyContent: "center", padding: 30 }}>
-      <Text style={{ color: "white", fontSize: 36, fontWeight: "bold" }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#0F172A",
+      }}
+    >
+      <Text style={{ fontSize: 32, fontWeight: "bold", color: "#38BDF8" }}>
         SparkHive
       </Text>
 
-      <Text style={{ color: "white", marginVertical: 15, fontSize: 16 }}>
-        Where College Ideas Spark 🚀
+      <Text style={{ color: "#CBD5E1", marginTop: 10 }}>
+        Connect • Build • Innovate
       </Text>
 
       <TouchableOpacity
-        style={{ backgroundColor: "white", padding: 15, borderRadius: 10, marginTop: 20 }}
         onPress={() => navigation.navigate("Login")}
+        style={{
+          marginTop: 40,
+          backgroundColor: "#38BDF8",
+          paddingHorizontal: 40,
+          paddingVertical: 12,
+          borderRadius: 10,
+        }}
       >
-        <Text style={{ textAlign: "center", color: theme.primary }}>Login</Text>
+        <Text style={{ color: "#020617", fontSize: 16 }}>Login</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={{ borderColor: "white", borderWidth: 1, padding: 15, borderRadius: 10, marginTop: 15 }}
         onPress={() => navigation.navigate("Signup")}
+        style={{ marginTop: 20 }}
       >
-        <Text style={{ textAlign: "center", color: "white" }}>Sign Up</Text>
+        <Text style={{ color: "#38BDF8" }}>Create Account</Text>
       </TouchableOpacity>
     </View>
   );

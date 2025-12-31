@@ -1,25 +1,65 @@
-import React, { useContext } from "react";
-import { View, FlatList } from "react-native";
-import { ThemeContext } from "../context/ThemeContext";
-import StoriesBar from "../components/StoriesBar";
+import React, { useEffect, useState } from "react";
+import { View, FlatList, Text, RefreshControl } from "react-native";
 import PostCard from "../components/PostCard";
+import api from "../services/api";
 
-export default function Home() {
-  const { theme } = useContext(ThemeContext);
+export default function Home({ navigation }) {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const posts = [
-    { id: 1, user: "Aman", type: "question", content: "Anyone working on AI projects?" },
-    { id: 2, user: "Tech Club", type: "event", content: "Hackathon this weekend 🚀" },
-  ];
+  const loadFeed = async () => {
+      try {
+        setLoading(true);
+        const res = await api.get("/posts/feed/");
+        setPosts([...res.data]); // 👈 force new reference
+      } catch (err) {
+        console.log("Feed error", err.response?.data);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+
+  useEffect(() => {
+    loadFeed();
+  }, []);
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.background }}>
+    <View style={{ flex: 1, backgroundColor: "#020617" }}>
+      {/* Header */}
+      <View
+        style={{
+          padding: 15,
+          borderBottomWidth: 0.5,
+          borderBottomColor: "#1E293B",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 22,
+            fontWeight: "bold",
+            color: "#38BDF8",
+          }}
+        >
+          SparkHive
+        </Text>
+      </View>
+
+      {/* Feed */}
       <FlatList
-        ListHeaderComponent={<StoriesBar />}
         data={posts}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <PostCard post={item} />}
-        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <PostCard post={item} navigation={navigation} />
+        )}
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={loadFeed}
+            colors={["#38BDF8"]}
+            tintColor="#38BDF8"
+          />
+        }
       />
     </View>
   );
